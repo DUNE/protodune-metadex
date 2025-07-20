@@ -1,1 +1,49 @@
-site_name: My Docs
+site_name: "PROTODUNE-METADEX: ProtoDUNE Metadata Exchange"
+site_url: https://dune.github.io/protodune-metadex/
+
+repo_url: https://github.com/DUNE/protodune-metadex
+repo_name: DUNE/protodune-metadex
+
+edit_uri: edit/main/docs/
+
+extra_css:
+  - stylesheets/extra.css
+
+theme:
+  features:
+    - content.action.view
+    - navigation.footer
+
+  icon:
+    admonition:
+      diagram: fontawesome/solid/diagram-project
+
+    logo: material/hub-outline
+
+    repo: fontawesome/brands/github
+
+  name: material
+
+  palette:
+    scheme: slate
+    primary: deep orange
+
+nav:
+  - Introduction: "index.md"
+  - Architecture:
+      - Event Storming: "architecture/event-storming.md"
+
+markdown_extensions:
+  - attr_list
+  - admonition
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+
+plugins:
+  - git-authors
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - glightbox
+  - search
