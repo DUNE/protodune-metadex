@@ -1,4 +1,4 @@
-# ProtoDUNE Metadata Exchange (HEP-METADEX)
+# ProtoDUNE Metadata Exchange (PROTODUNE-METADEX)
 
 ## Frameworks, Libraries, Infrastructure, and Tools Used in the Project
 
