@@ -20,6 +20,7 @@ dev = [
     "mkdocs-git-revision-date-localized-plugin>=1.4.7",
     "mkdocs-glightbox>=0.4.0",
     "mkdocs-material>=9.6.15",
+    "mkdocstrings-python>=1.16.12",
     "pytest>=8.4.1",
     "ruff>=0.12.4",
     "ty>=0.0.1a15",
