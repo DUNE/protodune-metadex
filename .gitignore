@@ -16,4 +16,4 @@ wheels/
 site
 
 # SQLite db files
-*.protodune-metadex.db
+*.db
