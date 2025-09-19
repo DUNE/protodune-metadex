@@ -3,10 +3,12 @@ name = "protodune-metadex"
 version = "0.1.0"
 description = "ProtoDUNE Metadata Exchange (PROTODUNE-METADEX)"
 readme = "README.md"
-requires-python = ">=3.13.5"
+requires-python = ">=3.13.7"
 dependencies = [
+    "aiosqlite>=0.21.0",
     "alembic>=1.16.4",
     "fastapi[standard]>=0.116.1",
+    "httpx>=0.28.1",
     "logfire>=3.25.0",
     "pydantic-settings>=2.10.1",
     "reflex>=0.8.2",

@@ -2,37 +2,44 @@ import uuid
 from typing import Any, Dict, Generic, List, Type, TypeVar
 
 from fastapi import HTTPException
-from sqlmodel import Session, SQLModel, select
+from sqlmodel import SQLModel, select
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 T = TypeVar("T", bound=SQLModel)
 
 
-class BaseRepository(Generic[T]):
-    def __init__(self, model: Type[T], session: Session) -> None:
+class SqlBaseRepository(Generic[T]):
+    def __init__(self, model: Type[T], async_session: AsyncSession) -> None:
         self.model = model
-        self.session = session
+        self.async_session = async_session
 
-    def create(self, data: Dict[str, Any], commit=True) -> T:
+    async def create(self, data: Dict[str, Any], commit=True) -> T:
         try:
             obj = self.model(**data)
-            self.session.add(obj)
+            self.async_session.add(obj)
             if commit:
-                self.session.commit()
-                self.session.refresh(obj)
+                await self.async_session.commit()
+                await self.async_session.refresh(obj)
             return obj
         except Exception as e:
-            self.session.rollback()
+            await self.async_session.rollback()
             raise HTTPException(status_code=400, detail=str(e))
 
-    def get(self, id: uuid.UUID) -> T:
-        return self.session.get(self.model, id)
+    async def get(self, id: uuid.UUID) -> T:
+        obj = await self.async_session.get(self.model, id)
+        if not obj:
+            raise HTTPException(status_code=404, detail="Item not found")
 
-    def get_all(self) -> List[T]:
+        return obj
+
+    async def get_all(self) -> List[T]:
         statement = select(self.model)
-        return self.session.exec(statement).all()
+        result = (await self.async_session.exec(statement)).all()
 
-    def update(self, id: uuid.UUID, data: Dict[str, Any], commit=True) -> T:
-        obj = self.session.get(self.model, id)
+        return result
+
+    async def update(self, id: uuid.UUID, data: Dict[str, Any], commit=True) -> T:
+        obj = await self.async_session.get(self.model, id)
         if not obj:
             raise HTTPException(status_code=404, detail="Item not found")
 
@@ -40,17 +47,17 @@ class BaseRepository(Generic[T]):
             setattr(obj, key, value)
 
         if commit:
-            self.session.commit()
-            self.session.refresh(obj)
+            await self.async_session.commit()
+            await self.async_session.refresh(obj)
 
         return obj
 
-    def delete(self, id: uuid.UUID, commit=True) -> bool:
-        obj = self.session.get(self.model, id)
+    async def delete(self, id: uuid.UUID, commit=True) -> bool:
+        obj = await self.async_session.get(self.model, id)
         if not obj:
             raise HTTPException(status_code=404, detail="Item not found")
 
-        self.session.delete(obj)
+        await self.async_session.delete(obj)
         if commit:
-            self.session.commit()
+            await self.async_session.commit()
         return True

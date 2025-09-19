@@ -1,21 +1,37 @@
-from typing import Any, Generator
+from typing import AsyncGenerator
 
-from sqlalchemy.engine.base import Engine
-from sqlmodel import Session, SQLModel, create_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    async_sessionmaker,
+    create_async_engine,
+)
+from sqlmodel import SQLModel
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 connect_args = {"check_same_thread": False}
 sqlite_file_name = "dev.protodune-metadex.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
+sqlite_url = f"sqlite+aiosqlite:///{sqlite_file_name}"
 # `echo` is something that should be used for dev / test purposes only
 # https://sqlmodel.tiangolo.com/tutorial/create-db-and-table/#engine-echo
-engine = create_engine(sqlite_url, echo=True, connect_args=connect_args)
+async_engine = create_async_engine(
+    sqlite_url, connect_args=connect_args, echo=True, future=True
+)
+async_session = async_sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=async_engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+)
 
 
-def create_engine_and_tables() -> Engine:
-    SQLModel.metadata.create_all(engine)
-    return engine
+async def create_tables() -> AsyncEngine:
+    async with async_engine.begin() as conn:
+        await conn.run_sync(SQLModel.metadata.create_all)
+
+    return async_engine
 
 
-def get_session() -> Generator[Session, Any, None]:
-    with Session(engine) as session:
+async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
+    async with async_session() as session:
         yield session
