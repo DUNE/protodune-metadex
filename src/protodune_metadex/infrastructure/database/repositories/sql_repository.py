@@ -8,8 +8,8 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 T = TypeVar("T", bound=SQLModel)
 
 
-class SqlBaseRepository(Generic[T]):
-    def __init__(self, model: Type[T], async_session: AsyncSession) -> None:
+class SqlRepository(Generic[T]):
+    def __init__(self, model: Type[T], async_session: AsyncSession | Any) -> None:
         self.model = model
         self.async_session = async_session
 
