@@ -34,7 +34,7 @@ nav:
       - Architecture:
           - "Event Storming: Metadata Management": "architecture/event-storming.md"
       - API Reference:
-          - interface.iov_router: "reference/api/iov_router.md"
+          - interface.iov_controller: "reference/api/iov_controller.md"
 
 markdown_extensions:
   - attr_list
