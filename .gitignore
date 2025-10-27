@@ -14,3 +14,6 @@ wheels/
 
 # MkDocs
 site
+
+# SQLite db files
+*.db

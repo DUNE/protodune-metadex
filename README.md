@@ -42,6 +42,7 @@
 ### Material for MkDocs
 
 - Install `Material for MkDocs`: `$ uv add --dev mkdocs-material`
+- Install `mkdocstrings`: `$ uv add --dev mkdocstrings-python`
 - Install the `mkdocs-glightbox` plugin: `$ uv add --dev mkdocs-glightbox`
 - Install the `mkdocs-git-authors-plugin` plugin: `$ uv add --dev mkdocs-git-authors-plugin`
 - Install the `mkdocs-git-revision-date-localized-plugin` plugin: `$ uv add --dev mkdocs-git-revision-date-localized-plugin`

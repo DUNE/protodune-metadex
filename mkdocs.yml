@@ -30,8 +30,11 @@ theme:
 
 nav:
   - Introduction: "index.md"
-  - Architecture:
-      - Event Storming: "architecture/event-storming.md"
+  - Reference:
+      - Architecture:
+          - "Event Storming: Metadata Management": "architecture/event-storming.md"
+      - API Reference:
+          - interface.iov_router: "reference/api/iov_router.md"
 
 markdown_extensions:
   - attr_list
@@ -46,4 +49,5 @@ plugins:
   - git-revision-date-localized:
       enable_creation_date: true
   - glightbox
+  - mkdocstrings
   - search
