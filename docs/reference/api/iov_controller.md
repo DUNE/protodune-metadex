@@ -1,4 +1,4 @@
-# `interface.iov_controller`
+# `interface.api.iov_controller`
 
 This part of the project documentation focuses on
 an **information-oriented** approach. Use it as a
